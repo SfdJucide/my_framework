@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <meta content="website description" name="description"/>
+    <meta content="website keywords, website keywords" name="keywords"/>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type"/>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logo">
+                <div id="logo_text">
+                    <!-- class="logo_colour", allows you to change the colour of the text -->
+                    <h1><a href="/">night<span class="logo_colour">_sky</span></a></h1>
+                    <h2>Simple. Contemporary. Website Template. {{ date }}</h2>
+                </div>
+            </div>
+            {% block menu %}
+            {% endblock %}
+        </div>
+        <div id="site_content">
+            {% block sidebar %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="footer">
+            <p><a href="/">Home</a> | <a href="/examples/">Examples</a> | <a href="/page/">A Page</a> | <a
+                href="/another_page/">Another Page</a> | <a href="/contacts/">Contact Us</a></p>
+            <p>Copyright &copy; night_sky | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a
+                href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a
+                href="http://www.html5webtemplates.co.uk">design from HTML5webtemplates.co.uk</a></p>
+        </div>
+    </div>
+</body>
+</html>
