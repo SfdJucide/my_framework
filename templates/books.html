@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block style %}
+    {% include "style.html" %}
+{% endblock %}
+
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h1>Our Literature</h1>
+        <p>This page contains some books about different parts of programming, machine learning, etc.</p>
+        <h2>Books</h2>
+        <table style="width:100%; border-spacing:0;">
+            <tr>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Category</th>
+            </tr>
+            {% for book in objects_list %}
+                <tr>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.category }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+<!--        <h2>Form Elements</h2>-->
+<!--        <form action="#" method="post">-->
+<!--            <div class="form_settings">-->
+<!--                <p><span>Form field example</span><input name="name" type="text" value=""/></p>-->
+<!--                <p><span>Textarea example</span><textarea cols="50" name="name" rows="8"></textarea></p>-->
+<!--                <p><span>Checkbox example</span><input class="checkbox" name="name" type="checkbox" value=""/></p>-->
+<!--                <p><span>Dropdown list example</span><select id="id" name="name">-->
+<!--                    <option value="1">Example 1</option>-->
+<!--                    <option value="2">Example 2</option>-->
+<!--                </select></p>-->
+<!--                <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" name="name" type="submit"-->
+<!--                                                                       value="button"/></p>-->
+<!--            </div>-->
+<!--        </form>-->
+    </div>
+{% endblock %}

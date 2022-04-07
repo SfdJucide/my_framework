@@ -1,3 +1,8 @@
+from patterns.creational_patterns import Logger
+
+logger = Logger('mainLogger')
+
+
 class Request:
 
     @staticmethod
@@ -28,7 +33,7 @@ class PostRequest(Request):
     def get_wsgi_input_data(environ: dict) -> bytes:
         content_data_len = environ.get('CONTENT_LENGTH')
         content_length = int(content_data_len) if content_data_len else 0
-        print(f'длинна пришедшей строки - {content_length}')
+        logger.log(f'длинна пришедшей строки - {content_length}')
 
         data = environ['wsgi.input'].read(content_length) if content_length > 0 else b''
         return data
@@ -37,7 +42,7 @@ class PostRequest(Request):
         result = {}
         if data:
             data_str = data.decode(encoding='utf-8')
-            print(f'строка после декодирования - {data_str}')
+            logger.log(f'строка после декодирования - {data_str}')
             result = self.parse_input_data(data_str)
 
         return result

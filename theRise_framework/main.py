@@ -1,6 +1,6 @@
 from theRise_framework.errors.page_errors import PageNotFound404
 from theRise_framework.utils.decode_utils import decode_value
-from theRise_framework.requests import GetRequest, PostRequest
+from theRise_framework.requests import GetRequest, PostRequest, logger
 
 
 class Framework:
@@ -35,13 +35,11 @@ class Framework:
         if method == 'GET':
             request_params = GetRequest().get_request_params(environ)
             request['request_params'] = decode_value(request_params)
-            print(f'GET-параметры:\n'
-                  f'{decode_value(request_params)}')
+            logger.log(f'GET-параметры: {decode_value(request_params)}')
         elif method == 'POST':
             data = PostRequest().get_request_params(environ)
             request['data'] = decode_value(data)
-            print(f'POST-запрос:\n'
-                  f'{decode_value(data)}')
+            logger.log(f'POST-запрос: {decode_value(data)}')
 
         # отработка паттерна front controller
         for front in self.fronts:
