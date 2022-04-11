@@ -1,12 +1,17 @@
 from theRise_framework.templator import render
 from patterns.creational_patterns import Engine, Logger
 from theRise_framework.utils.pre_filling_page import index_filling
+from theRise_framework.utils.validators import name_validator
+from patterns.structural_patterns import AppRoute, Debug
 
 website = Engine()
 logger = Logger('mainLogger')
+routes = {}
 
 
+@AppRoute(routes, url='/')
 class Index:
+    @Debug('index')
     def __call__(self, request):
         # наполнение сайта данными
         index_filling(website)
@@ -16,13 +21,17 @@ class Index:
                                 categories=website.categories)
 
 
+@AppRoute(routes, url='/contacts/')
 class Contacts:
+    @Debug('contacts')
     def __call__(self, request):
         return '200 OK', render('contacts.html', title=request.get('title'),
                                 categories=website.categories)
 
 
+@AppRoute(routes, url='/books/')
 class Books:
+    @Debug('book_list')
     def __call__(self, request):
         logger.log('Book list')
         try:
@@ -37,7 +46,9 @@ class Books:
                                     objects_list=website.books, categories=website.categories)
 
 
+@AppRoute(routes, url='/create_book/')
 class CreateBook:
+    @Debug('create_book')
     def __call__(self, request):
         if request['method'] == 'POST':
             data = request['data']
@@ -49,7 +60,9 @@ class CreateBook:
             # автор книги
             author = data['author']
             author = website.decode_value(author)
-            website.authors.append(website.create_user('author', author.split()[0], author.split()[1]))
+            author, length = name_validator(author)
+            website.authors.append(website.create_user('author', author[0], author[1])) if length == 2 \
+                else website.authors.append(website.create_user('author', author[0]))
 
             # категория
             category_id = data['category']
@@ -71,7 +84,9 @@ class CreateBook:
                 return '200 OK', 'No categories have been added yet'
 
 
+@AppRoute(routes, url='/create_category/')
 class CreateCategory:
+    @Debug('create_category')
     def __call__(self, request):
         logger.log('Category list')
 

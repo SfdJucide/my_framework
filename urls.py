@@ -1,6 +1,6 @@
 from datetime import date
 
-from views import Index, Contacts, Books, CreateBook, CreateCategory
+# from views import Index, Contacts, Books, CreateBook, CreateCategory
 
 
 # front controllers
@@ -14,10 +14,10 @@ def title_front(request):
 
 fronts = [date_front, title_front]
 
-routes = {
-    '/': Index(),
-    '/contacts/': Contacts(),
-    '/books/': Books(),
-    '/create_book/': CreateBook(),
-    '/create_category/': CreateCategory(),
-}
+# routes = {
+#     '/': Index(),
+#     '/contacts/': Contacts(),
+#     '/books/': Books(),
+#     '/create_book/': CreateBook(),
+#     '/create_category/': CreateCategory(),
+# }

@@ -45,7 +45,7 @@ class Book:
 
     def __init__(self, name, author, category):
         self.name = name
-        self.author = f'{author.first_name} {author.last_name}'
+        self.author = f'{author.first_name} {author.last_name}' if author.last_name else f'{author.first_name}'
         self.category = category.name
         category.books.append(self)
 
@@ -84,7 +84,7 @@ class Engine:
         self.categories = []
 
     @staticmethod
-    def create_user(type_, first_name, last_name):
+    def create_user(type_, first_name=None, last_name=None):
         return UserFactory.create(type_, first_name, last_name)
 
     @staticmethod
