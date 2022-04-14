@@ -1,11 +1,16 @@
+from patterns.behavioral_patterns import Serializer
 from theRise_framework.templator import render
 from patterns.creational_patterns import Engine, Logger
 from theRise_framework.utils.pre_filling_page import index_filling
 from theRise_framework.utils.validators import name_validator
 from patterns.structural_patterns import AppRoute, Debug
+from patterns.behavioral_patterns import EmailNotifier, SmsNotifier, TemplateView, ListView, CreateView
 
 website = Engine()
 logger = Logger('mainLogger')
+email_notifier = EmailNotifier()
+sms_notifier = SmsNotifier()
+
 routes = {}
 
 
@@ -69,6 +74,10 @@ class CreateBook:
             category = website.get_category_by_id(int(category_id))
 
             book = website.create_book('study', name, website.authors[-1], category)
+
+            book.observers.append(email_notifier)
+            book.observers.append(sms_notifier)
+
             website.books.append(book)
 
             logger.log('Book has been successfully added')
@@ -106,3 +115,57 @@ class CreateCategory:
             logger.log(website.categories)
             return '200 OK', render('create_category.html', title=request.get('title'),
                                     categories=website.categories)
+
+
+@AppRoute(routes=routes, url='/api/')
+class BookApi:
+    @Debug(name='BookApi')
+    def __call__(self, request):
+        return '200 OK', Serializer(website.books).save()
+
+
+@AppRoute(routes=routes, url='/readers/')
+class ReadersListView(ListView):
+    queryset = website.readers
+    template_name = 'readers.html'
+
+
+@AppRoute(routes=routes, url='/create_user/')
+class StudentCreateView(CreateView):
+    template_name = 'create_user.html'
+
+    def create_obj(self, data):
+        name = data['name']
+        surname = data['surname']
+        category = data['category']
+
+        name = website.decode_value(name)
+        surname = website.decode_value(surname)
+        category = website.decode_value(category)
+
+        user = website.create_user(category, name, surname)
+        if category == 'author':
+            website.authors.append(user)
+        elif category == 'reader':
+            website.readers.append(user)
+
+
+@AppRoute(routes=routes, url='/read_book/')
+class AddStudentByCourseCreateView(CreateView):
+    template_name = 'read_book.html'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['books'] = website.books
+        context['readers'] = website.readers
+        return context
+
+    def create_obj(self, data: dict):
+        book = data['book_name']
+        book = website.decode_value(book)
+        book = website.get_book(book)
+
+        reader_id = data['reader_id']
+        reader = website.get_reader_by_id(int(reader_id))
+
+        book.add_reader(reader)

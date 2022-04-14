@@ -1,12 +1,14 @@
 from quopri import decodestring
-from colorama import Fore, init
 
-init(autoreset=True)
+from patterns.behavioral_patterns import Subject, FileWriter, ConsoleWriter
 
 
 class User:
+    auto_id = 0
 
     def __init__(self, first_name, last_name):
+        self.id = self.auto_id
+        User.auto_id += 1
         self.first_name = first_name
         self.last_name = last_name
 
@@ -16,7 +18,9 @@ class Author(User):
 
 
 class Reader(User):
-    pass
+    def __init__(self, first_name, last_name):
+        self.books = []
+        super().__init__(first_name, last_name)
 
 
 # паттерн фабрика
@@ -41,13 +45,25 @@ class Category:
         self.books = []
 
 
-class Book:
+class Book(Subject):
 
     def __init__(self, name, author, category):
         self.name = name
         self.author = f'{author.first_name} {author.last_name}' if author.last_name else f'{author.first_name}'
         self.category = category.name
         category.books.append(self)
+        self.readers = []
+        super().__init__()
+
+    def __getitem__(self, item):
+        return self.readers[item]
+
+    def add_reader(self, reader):
+        self.readers.append(reader)
+        print(self.readers)
+        reader.books.append(self)
+        print(reader.books)
+        self.notify()
 
 
 class ScientificBook(Book):
@@ -95,11 +111,23 @@ class Engine:
     def create_book(type_, name, author, category):
         return BookFactory.create(type_, name, author, category)
 
+    def get_book(self, book_name):
+        for book in self.books:
+            if book.name == book_name:
+                return book
+        raise Exception(f'Книга не найдена!')
+
     def get_category_by_id(self, cat_id):
         for item in self.categories:
             if item.id == cat_id:
                 return item
         raise Exception(f'Категории с id = {cat_id} не найдены!')
+
+    def get_reader_by_id(self, user_id):
+        for user in self.readers:
+            if user.id == user_id:
+                return user
+        raise Exception(f'Пользователь с id = {user_id} не найден!')
 
     @staticmethod
     def decode_value(val):
@@ -130,9 +158,10 @@ class Singleton(type):
 
 class Logger(metaclass=Singleton):
 
-    def __init__(self, name):
+    def __init__(self, name, writer=ConsoleWriter()):
         self.name = name
+        self.writer = writer
 
-    @staticmethod
-    def log(text):
-        print(Fore.LIGHTYELLOW_EX + 'LOG >>>', text)
+    def log(self, text):
+        text = f'LOG >>> {text}'
+        self.writer.write(text)

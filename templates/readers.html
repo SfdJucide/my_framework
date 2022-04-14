@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block style %}
+    {% include "style.html" %}
+{% endblock %}
+
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h2>Our Readers</h2>
+        <table style="width:100%; border-spacing:0;">
+            <tr>
+                <th>Student id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Now Reading</th>
+            </tr>
+            {% for reader in objects_list %}
+                <tr>
+                    <td>{{ reader.id }}</td>
+                    <td>{{ reader.first_name }}</td>
+                    <td>{{ reader.last_name }}</td>
+                    {% if reader.books %}
+                        <td>
+                            {% for book in reader.books %}
+                                {{ book.name }},
+                            {% endfor %}
+                        </td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

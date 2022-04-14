@@ -1,0 +1,22 @@
+LOG >>> GET-параметры: {}
+LOG >>> GET-параметры: {}
+LOG >>> Book list
+LOG >>> [<patterns.creational_patterns.StudyBook object at 0x0000020375DFB700>, <patterns.creational_patterns.ReferenceBook object at 0x0000020375DFB760>, <patterns.creational_patterns.ScientificBook object at 0x0000020375DFB7C0>]
+LOG >>> GET-параметры: {}
+LOG >>> длинна пришедшей строки - 67
+LOG >>> строка после декодирования - name=Python&author=Mark+Shepard&category=0&contact_submitted=create
+LOG >>> POST-запрос: {'name': 'Python', 'author': 'Mark Shepard', 'category': '0', 'contact_submitted': 'create'}
+LOG >>> Book has been successfully added
+LOG >>> GET-параметры: {}
+LOG >>> Category list
+LOG >>> [<patterns.creational_patterns.Category object at 0x0000020375DFB3D0>, <patterns.creational_patterns.Category object at 0x0000020375DFB460>, <patterns.creational_patterns.Category object at 0x0000020375DFAFB0>]
+LOG >>> длинна пришедшей строки - 46
+LOG >>> строка после декодирования - name=Machine+Learning&contact_submitted=create
+LOG >>> POST-запрос: {'name': 'Machine Learning', 'contact_submitted': 'create'}
+LOG >>> Category list
+LOG >>> [<patterns.creational_patterns.Category object at 0x0000020375DFB3D0>, <patterns.creational_patterns.Category object at 0x0000020375DFB460>, <patterns.creational_patterns.Category object at 0x0000020375DFAFB0>, <patterns.creational_patterns.Category object at 0x0000020375E53DF0>]
+LOG >>> GET-параметры: {}
+LOG >>> длинна пришедшей строки - 55
+LOG >>> строка после декодирования - name=ML&author=Mash&category=3&contact_submitted=create
+LOG >>> POST-запрос: {'name': 'ML', 'author': 'Mash', 'category': '3', 'contact_submitted': 'create'}
+LOG >>> Book has been successfully added

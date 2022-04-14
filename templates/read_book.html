@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block style %}
+    {% include "style.html" %}
+{% endblock %}
+
+{% block menu %}
+    {% include "menu.html" %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h2>Choose your new book</h2>
+        <form action="#" method="post">
+            <div class="form_settings">
+                <p><span>Books</span><select id="id" name="book_name">
+                    {% for book in books %}
+                        <option value="{{ book.name }}">{{ book.name }}</option>
+                    {% endfor %}
+                </select></p>
+                <p><span>Readers</span><select id="reader_id" name="reader_id">
+                    {% for user in readers %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select></p>
+                <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" name="contact_submitted" type="submit"
+                                                                       value="Start Read"/></p>
+            </div>
+        </form>
+    </div>
+{% endblock %}
