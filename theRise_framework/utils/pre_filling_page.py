@@ -17,8 +17,8 @@ def index_filling(engine):
         fill_data(engine, 'author', type_='author', first_name='Адитья', last_name='Бхаргава')
         fill_data(engine, 'author', type_='author', first_name='Владимир', last_name='Дронов')
         fill_data(engine, 'author', type_='author', first_name='Jake', last_name='VanderPlas')
-        fill_data(engine, 'reader', type_='reader', first_name='Yard', last_name='Meski')
-        fill_data(engine, 'reader', type_='reader', first_name='Frank', last_name='Palace')
+        # fill_data(engine, 'reader', type_='reader', first_name='Yard', last_name='Meski')
+        # fill_data(engine, 'reader', type_='reader', first_name='Frank', last_name='Palace')
         fill_data(engine, 'book', type_='study', name='Грокаем алгоритмы',
                   author=engine.authors[0], category=engine.categories[2])
         fill_data(engine, 'book', type_='reference', name='Практика создания веб-сайтов на Python',

@@ -1,15 +1,18 @@
 from patterns.behavioral_patterns import Serializer
 from theRise_framework.templator import render
-from patterns.creational_patterns import Engine, Logger
+from patterns.creational_patterns import Engine, Logger, MapperRegistry
 from theRise_framework.utils.pre_filling_page import index_filling
 from theRise_framework.utils.validators import name_validator
 from patterns.structural_patterns import AppRoute, Debug
 from patterns.behavioral_patterns import EmailNotifier, SmsNotifier, TemplateView, ListView, CreateView
+from patterns.architectural_patterns import UnitOfWork
 
 website = Engine()
 logger = Logger('mainLogger')
 email_notifier = EmailNotifier()
 sms_notifier = SmsNotifier()
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 
 routes = {}
 
@@ -129,6 +132,10 @@ class ReadersListView(ListView):
     queryset = website.readers
     template_name = 'readers.html'
 
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('reader')
+        return mapper.all()
+
 
 @AppRoute(routes=routes, url='/create_user/')
 class StudentCreateView(CreateView):
@@ -148,6 +155,8 @@ class StudentCreateView(CreateView):
             website.authors.append(user)
         elif category == 'reader':
             website.readers.append(user)
+            user.mark_new()
+            UnitOfWork.get_current().commit()
 
 
 @AppRoute(routes=routes, url='/read_book/')
